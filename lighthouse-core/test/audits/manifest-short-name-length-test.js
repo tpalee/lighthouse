@@ -31,7 +31,7 @@ describe('Manifest: short_name_length audit', () => {
 
     return ManifestShortNameLengthAudit.audit(artifacts).then(result => {
       assert.strictEqual(result.rawValue, false);
-      assert.strictEqual(result.debugString, undefined);
+      assert.ok(result.debugString.includes('No manifest was fetched'));
     });
   });
 
@@ -40,11 +40,11 @@ describe('Manifest: short_name_length audit', () => {
     artifacts.Manifest = manifestParser('{}', EXAMPLE_MANIFEST_URL, EXAMPLE_DOC_URL);
     return ManifestShortNameLengthAudit.audit(artifacts).then(result => {
       assert.equal(result.rawValue, false);
-      assert.equal(result.debugString, 'No short_name found in manifest.');
+      assert.equal(result.debugString, 'Failures: Manifest does not have `short_name`.');
     });
   });
 
-  it('fails when a manifest contains no short_name and too long name', () => {
+  it('fails when a manifest contains no short_name', () => {
     const artifacts = generateMockArtifacts();
     const manifestSrc = JSON.stringify({
       name: 'i\'m much longer than the recommended size',
@@ -53,6 +53,8 @@ describe('Manifest: short_name_length audit', () => {
     return ManifestShortNameLengthAudit.audit(artifacts).then(result => {
       assert.equal(result.rawValue, false);
       assert.notEqual(result.debugString, undefined);
+      assert.ok(result.debugString.includes('Manifest does not have `short_name`'));
+      assert.ok(!result.debugString.includes('without truncation'));
     });
   });
 
@@ -66,6 +68,8 @@ describe('Manifest: short_name_length audit', () => {
     artifacts.Manifest = manifestParser(manifestSrc, EXAMPLE_MANIFEST_URL, EXAMPLE_DOC_URL);
     return ManifestShortNameLengthAudit.audit(artifacts).then(result => {
       assert.equal(result.rawValue, false);
+      assert.ok(result.debugString.includes('without truncation'));
+      assert.ok(!result.debugString.includes('Manifest does not have `short_name`'));
     });
   });
 
@@ -77,6 +81,7 @@ describe('Manifest: short_name_length audit', () => {
     artifacts.Manifest = manifestParser(manifestSrc, EXAMPLE_MANIFEST_URL, EXAMPLE_DOC_URL);
     return ManifestShortNameLengthAudit.audit(artifacts).then(result => {
       assert.equal(result.rawValue, true);
+      assert.equal(result.debugString, undefined);
     });
   });
   /* eslint-enable camelcase */
