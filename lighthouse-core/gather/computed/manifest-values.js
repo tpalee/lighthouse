@@ -11,7 +11,7 @@ const icons = require('../../lib/icons');
 const PWA_DISPLAY_VALUES = ['minimal-ui', 'fullscreen', 'standalone'];
 
 // Historically, Chrome recommended 12 chars as the maximum short_name length to prevent truncation.
-// See #69 for more discussion & https://developer.chrome.com/apps/manifest/name#short_name
+// For more discussion, see https://github.com/GoogleChrome/lighthouse/issues/69 and https://developer.chrome.com/apps/manifest/name#short_name
 const SUGGESTED_SHORTNAME_LENGTH = 12;
 
 class ManifestValues extends ComputedArtifact {
@@ -66,7 +66,8 @@ class ManifestValues extends ComputedArtifact {
         id: 'shortNameLength',
         failureText: `Manifest's \`short_name\` is too long (>${SUGGESTED_SHORTNAME_LENGTH} ` +
           `characters) to be displayed on a homescreen without truncation`,
-        validate: manifest => !!manifest.value.short_name.value &&
+        // Pass if there's no short_name. Don't want to report a non-existent string is too long
+        validate: manifest => !manifest.value.short_name.value ||
             manifest.value.short_name.value.length <= SUGGESTED_SHORTNAME_LENGTH,
       },
       {
