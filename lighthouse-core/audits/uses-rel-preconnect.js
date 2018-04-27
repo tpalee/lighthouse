@@ -84,9 +84,10 @@ class UsesRelPreconnectAudit extends Audit {
       .forEach(record => {
         console.log('-');
         console.log(record.requestId, record.url);
+        console.log(`timing:`, JSON.stringify(record._timing))
           // filter out all resources where timing info was invalid
         if (!UsesRelPreconnectAudit.hasValidTiming(record)) {
-          console.log('invalid timing:', JSON.stringify(record._timing));
+          console.log('invalid timing:');
           return;
         }
           // filter out all resources that are loaded by the document
