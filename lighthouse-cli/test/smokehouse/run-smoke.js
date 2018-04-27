@@ -114,6 +114,7 @@ async function runSmokehouse(smokes) {
       'node lighthouse-cli/test/smokehouse/smokehouse.js',
       `--config-path=${config}`,
       `--expectations-path=${expectations}`,
+      '--debug',
     ].join(' ');
 
     // The promise ensures we output immediately, even if the process errors

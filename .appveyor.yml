@@ -35,10 +35,7 @@ test_script:
   - npm --version
   - yarn --version
   - which yarn
-  - yarn lint
-  - yarn unit
-  - yarn type-check
-  - yarn smoke
+  - yarn smoke perf
 
 cache:
   #- chrome-win32 -> appveyor.yml,package.json

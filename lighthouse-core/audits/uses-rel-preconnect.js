@@ -79,22 +79,40 @@ class UsesRelPreconnectAudit extends Audit {
 
     /** @type {Map<string, LH.WebInspector.NetworkRequest[]>}  */
     const origins = new Map();
+    console.log(`found ${networkRecords.length} records`);
     networkRecords
       .forEach(record => {
-        if (
+        console.log('-');
+        console.log(record.requestId, record.url);
           // filter out all resources where timing info was invalid
-          !UsesRelPreconnectAudit.hasValidTiming(record) ||
+        if (!UsesRelPreconnectAudit.hasValidTiming(record)) {
+          console.log('invalid timing:', JSON.stringify(record._timing));
+          return;
+        }
           // filter out all resources that are loaded by the document
-          record.initiatorRequest() === mainResource ||
+        if (record.initiatorRequest() === mainResource) {
+          console.log('initiated by main resource');
+          return;
+        }
           // filter out urls that do not have an origin (data, ...)
-          !record.parsedURL || !record.parsedURL.securityOrigin() ||
+        if (!record.parsedURL || !record.parsedURL.securityOrigin()) {
+          console.log('no origin data');
+          return;
+        }
           // filter out all resources that have the same origin
-          mainResource.parsedURL.securityOrigin() === record.parsedURL.securityOrigin() ||
+        if (mainResource.parsedURL.securityOrigin() === record.parsedURL.securityOrigin()) {
+          console.log('same origin');
+          return;
+        }
           // filter out all resources where origins are already resolved
-          UsesRelPreconnectAudit.hasAlreadyConnectedToOrigin(record) ||
+        if (UsesRelPreconnectAudit.hasAlreadyConnectedToOrigin(record)) {
+          console.log('origin already resolved');
+          return;
+        }
           // make sure the requests are below the PRECONNECT_SOCKET_MAX_IDLE (15s) mark
-          !UsesRelPreconnectAudit.socketStartTimeIsBelowThreshold(record, mainResource)
+        if (!UsesRelPreconnectAudit.socketStartTimeIsBelowThreshold(record, mainResource)
         ) {
+          console.log('not below the PRECONNECT_SOCKET_MAX_IDLE (15s) mark');
           return;
         }
 
@@ -103,6 +121,7 @@ class UsesRelPreconnectAudit extends Audit {
         records.push(record);
         origins.set(securityOrigin, records);
       });
+    console.log('origin count', origins.size);
 
     /** @type {Array<{url: string, type: 'ms', wastedMs: number}>}*/
     let results = [];
@@ -127,6 +146,7 @@ class UsesRelPreconnectAudit extends Audit {
         wastedMs: wastedMs,
       });
     });
+    console.log('result count', results.length);
 
     results = results
       .sort((a, b) => b.wastedMs - a.wastedMs);
