@@ -9,7 +9,9 @@ const ByteEfficiencyAudit = require('./byte-efficiency-audit');
 const Util = require('../../report/html/renderer/util');
 const WebInspector = require('../../lib/web-inspector');
 
-const BUNDLE_SIZE_THRESHOLD = 450 * 1024;
+// Based on HTTP Archive information we go for 170kb
+// More info can be found here https://github.com/GoogleChrome/lighthouse/issues/1902
+const BUNDLE_SIZE_THRESHOLD = 170 * 1024;
 
 class TotalByteWeight extends ByteEfficiencyAudit {
   /**
@@ -80,6 +82,7 @@ class TotalByteWeight extends ByteEfficiencyAudit {
         totalBytes += result.totalBytes;
         results.push(result);
       });
+
       const totalCompletedRequests = results.length;
       results = results.sort((itemA, itemB) => itemB.totalBytes - itemA.totalBytes).slice(0, 10);
 
