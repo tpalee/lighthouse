@@ -177,7 +177,7 @@ module.exports = [
               wastedBytes: 682028,
             },
           ],
-        }
+        },
       },
       // check if table rows are getting flagged
       'total-byte-weight': {
@@ -189,7 +189,7 @@ module.exports = [
               flagged: true,
             },
             2: {
-              url: "http://localhost:10200/zone.js",
+              url: 'http://localhost:10200/zone.js',
               totalBytes: 71654,
               flagged: false,
             },
