@@ -5,6 +5,7 @@
  */
 'use strict';
 
+const URL = require('../lib/url-shim');
 const Audit = require('./audit');
 const UnusedBytes = require('./byte-efficiency/byte-efficiency-audit');
 const THRESHOLD_IN_MS = 100;
@@ -56,6 +57,20 @@ class UsesRelPreloadAudit extends Audit {
     flatten(chains, 0);
 
     return requests;
+  }
+
+  /**
+   *
+   * @param {LH.WebInspector.NetworkRequest} request
+   * @param {LH.WebInspector.NetworkRequest} mainResource
+   * @return {boolean}
+   */
+  static shouldPreload(request, mainResource) {
+    if (request._isLinkPreload || request.protocol === 'data') {
+      return false;
+    }
+
+    return URL.rootDomainsMatch(request.url, mainResource.url);
   }
 
   /**
@@ -117,6 +132,7 @@ class UsesRelPreloadAudit extends Audit {
       const originalNode = originalNodesByRecord.get(node.record);
       const timingAfter = simulationAfterChanges.nodeTimings.get(node);
       const timingBefore = simulationBeforeChanges.nodeTimings.get(originalNode);
+
       // @ts-ignore TODO(phulce): fix timing typedef
       const wastedMs = Math.round(timingBefore.endTime - timingAfter.endTime);
       if (wastedMs < THRESHOLD_IN_MS) continue;
@@ -163,8 +179,8 @@ class UsesRelPreloadAudit extends Audit {
     /** @type {Set<string>} */
     const urls = new Set();
     for (const networkRecord of criticalRequests) {
-      if (!networkRecord._isLinkPreload && networkRecord.protocol !== 'data') {
-        urls.add(networkRecord._url);
+      if (UsesRelPreloadAudit.shouldPreload(networkRecord, mainResource)) {
+        urls.add(networkRecord.url);
       }
     }
 
