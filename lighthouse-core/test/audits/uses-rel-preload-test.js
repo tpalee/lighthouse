@@ -50,7 +50,7 @@ describe('Performance: uses-rel-preload audit', () => {
 
   it('should suggest preload resource', () => {
     const rootNode = buildNode(1, 'http://example.com');
-    const mainDocumentNode = buildNode(2, 'http://www.example.com');
+    const mainDocumentNode = buildNode(2, 'http://www.example.com:3000');
     const scriptNode = buildNode(3, 'http://www.example.com/script.js');
     const scriptAddedNode = buildNode(4, 'http://www.example.com/script-added.js');
     const scriptSubNode = buildNode(5, 'http://sub.example.com/script-sub.js');
@@ -101,14 +101,14 @@ describe('Performance: uses-rel-preload audit', () => {
     };
 
     const mainResource = Object.assign({}, defaultMainResource, {
-      url: 'http://www.example.com',
+      url: 'http://www.example.com:3000',
       redirects: [''],
     });
     const networkRecords = [
       {
         requestId: '2',
         _isLinkPreload: false,
-        url: 'http://www.example.com',
+        url: 'http://www.example.com:3000',
       },
       {
         requestId: '3',
