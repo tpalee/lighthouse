@@ -195,7 +195,7 @@ module.exports = [
             },
             3: {
               url: 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js',
-              totalBytes: 30174,
+              totalBytes: '>30000',
               flagged: false,
             },
           },
