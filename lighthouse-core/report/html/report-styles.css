@@ -152,9 +152,20 @@
 .lh-details {
   font-size: var(--body-font-size);
   margin-top: var(--default-padding);
+  margin-bottom: var(--default-padding);
+}
+
+.lh-details summary {
+  position: relative;
+  left: -20px;
+  background: var(--lh-table-header-bg);
+  padding: 8px;
+  z-index: 1;
 }
 
 .lh-details[open] summary {
+  margin-top: -46px;
+  top: 46px;
   margin-bottom: var(--default-padding);
 }
 
@@ -888,6 +899,8 @@ summary.lh-passed-audits-summary {
   margin-bottom: var(--lh-audit-vpadding);
 
   --url-col-max-width: 450px;
+  position: relative;
+  z-index: 2;
 }
 
 .lh-table thead {
