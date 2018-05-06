@@ -54,8 +54,10 @@ class CategoryRenderer {
     }
 
     auditEl.classList.add(`lh-audit--${audit.result.scoreDisplayMode}`);
-
     this.dom.find('.lh-audit__index', auditEl).textContent = `${index + 1}`;
+
+    // Add chevron SVG to the end of the summary
+    this.dom.find('.lh-chevron-container', auditEl).appendChild(this._createChevron());
 
     this._setRatingClass(auditEl, audit.result.score, scoreDisplayMode, audit.result.error);
 
@@ -70,6 +72,15 @@ class CategoryRenderer {
       debugStrEl.textContent = audit.result.debugString;
     }
     return auditEl;
+  }
+
+  /**
+   * @return {!Element}
+   */
+  _createChevron() {
+    const chevronTmpl = this.dom.cloneTemplate('#tmpl-lh-chevron', this.templateContext);
+    const chevronEl = this.dom.find('.lh-chevron', chevronTmpl);
+    return chevronEl;
   }
 
   /**
@@ -122,10 +133,10 @@ class CategoryRenderer {
     const summmaryEl = this.dom.createChildOf(groupEl, 'summary', 'lh-audit-group__summary');
     const headerEl = this.dom.createChildOf(summmaryEl, 'div', 'lh-audit-group__header');
     const itemCountEl = this.dom.createChildOf(summmaryEl, 'div', 'lh-audit-group__itemcount');
-    this.dom.createChildOf(summmaryEl, 'div',
-      `lh-toggle-arrow  ${expandable ? '' : ' lh-toggle-arrow-unexpandable'}`, {
-        title: 'Show audits',
-      });
+    if (expandable) {
+      const chevronEl = summmaryEl.appendChild(this._createChevron());
+      chevronEl.title = 'Show audits';
+    }
 
     if (group.description) {
       const auditGroupDescription = this.dom.createElement('div', 'lh-audit-group__description');
