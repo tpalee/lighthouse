@@ -327,20 +327,6 @@
       display: flex;
       align-items: center;
     }
-    .lh-config__settings-toggle .lh-toggle-arrow {
-      width: 16px;
-      height: 16px;
-      margin-left: 2px;
-    }
-    .lh-config__settings-toggle[open] .lh-toggle-arrow {
-      transform: rotateZ(90deg);
-    }
-    .lh-config__settings-toggle summary::-moz-list-bullet {
-      display: none;
-    }
-    .lh-config__settings-toggle summary::-webkit-details-marker {
-      display: none;
-    }
     @media screen and (min-width: 965px) {
       .lh-header {
         width: var(--report-width);
@@ -373,7 +359,6 @@
         <details class="lh-config__settings-toggle">
           <summary>
             <span>Runtime settings</span>
-            <span class="lh-toggle-arrow" title="See report's runtime settings"></span>
           </summary>
           <div class="lh-env">
             <div class="lh-env__title">Runtime environment</div>
