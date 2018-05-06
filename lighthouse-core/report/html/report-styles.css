@@ -941,22 +941,20 @@ summary.lh-passed-audits-summary {
 
 .lh-audit-group > .lh-audit-group__summary > .lh-chevron .lh-chevron__line-right,
 .lh-audit-group[open] > .lh-audit-group__summary > .lh-chevron .lh-chevron__line-left,
-.lh-expandable-details > .lh-expandable-details__summary > .lh-chevron .lh-chevron__line-right,
-.lh-expandable-details[open] > .lh-expandable-details__summary > .lh-chevron .lh-chevron__line-left,
-.lh-expandable-details > .lh-expandable-details__summary > div > .lh-chevron .lh-chevron__line-right,
-.lh-expandable-details[open] > .lh-expandable-details__summary > div > .lh-chevron .lh-chevron__line-left  {
+.lh-audit > .lh-expandable-details .lh-chevron__line-right,
+.lh-audit > .lh-expandable-details[open] .lh-chevron__line-left {
  transform: rotate(-42deg);
 }
 
 .lh-audit-group[open] > .lh-audit-group__summary > .lh-chevron .lh-chevron__line-right,
-.lh-expandable-details[open] > .lh-expandable-details__summary > .lh-chevron .lh-chevron__line-right,
-.lh-expandable-details[open] > .lh-expandable-details__summary > div > .lh-chevron .lh-chevron__line-right {
+.lh-audit > .lh-expandable-details[open] .lh-chevron__line-right,
+.lh-audit > .lh-expandable-details[open] .lh-chevron__line-right {
   transform: rotate(42deg);
 }
 
 .lh-audit-group[open] > .lh-audit-group__summary > .lh-chevron .lh-chevron__lines,
-.lh-expandable-details[open] > .lh-expandable-details__summary > .lh-chevron .lh-chevron__lines,
-.lh-expandable-details[open] > .lh-expandable-details__summary > div > .lh-chevron .lh-chevron__lines {
+.lh-audit > .lh-expandable-details[open] .lh-chevron__lines,
+.lh-audit > .lh-expandable-details[open] .lh-chevron__lines {
  transform: translateY(-13px);
 }
 
