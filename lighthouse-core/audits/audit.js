@@ -91,14 +91,13 @@ class Audit {
 
   /**
    * @param {typeof Audit} audit
-   * @param {string} debugString
+   * @param {string} errorMessage
    * @return {LH.Audit.Result}
    */
-  static generateErrorAuditResult(audit, debugString) {
+  static generateErrorAuditResult(audit, errorMessage) {
     return Audit.generateAuditResult(audit, {
       rawValue: null,
-      error: true,
-      debugString,
+      errorMessage,
     });
   }
 
@@ -167,7 +166,7 @@ class Audit {
       result.rawValue = true;
     }
 
-    if (result.error) {
+    if (result.errorMessage) {
       scoreDisplayMode = Audit.SCORING_MODES.ERROR;
     }
 
@@ -185,10 +184,13 @@ class Audit {
 
     return {
       score,
-      displayValue: result.displayValue || '',
       rawValue: result.rawValue,
-      error: result.error,
-      debugString: result.debugString,
+
+      displayValue: result.displayValue,
+      explanation: result.explanation,
+      errorMessage: result.errorMessage,
+      warnings: result.warnings,
+
       extendedInfo: result.extendedInfo,
       scoreDisplayMode,
       name: audit.meta.name,

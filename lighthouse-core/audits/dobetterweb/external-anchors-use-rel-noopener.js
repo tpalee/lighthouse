@@ -29,7 +29,8 @@ class ExternalAnchorsUseRelNoopenerAudit extends Audit {
    * @return {LH.Audit.Product}
    */
   static audit(artifacts) {
-    let debugString;
+    /** @type {string[]} */
+    const warnings = [];
     const pageHost = new URL(artifacts.URL.finalUrl).host;
     // Filter usages to exclude anchors that are same origin
     // TODO: better extendedInfo for anchors with no href attribute:
@@ -40,9 +41,8 @@ class ExternalAnchorsUseRelNoopenerAudit extends Audit {
         try {
           return new URL(anchor.href).host !== pageHost;
         } catch (err) {
-          debugString = 'Lighthouse was unable to determine the destination ' +
-              'of some anchor tags. If they are not used as hyperlinks, ' +
-              'consider removing the _blank target.';
+          // TODO(phulce): make this message better with anchor.outerHTML
+          warnings.push(`Unable to determine href for anchor target=${anchor.target}`);
           return true;
         }
       })
@@ -75,7 +75,7 @@ class ExternalAnchorsUseRelNoopenerAudit extends Audit {
         value: failingAnchors,
       },
       details,
-      debugString,
+      warnings,
     };
   }
 }
