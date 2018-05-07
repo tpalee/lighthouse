@@ -120,8 +120,7 @@
   scroll-behavior: smooth;
 }
 
-.lh-root :focus,
-.lh-root .lh-details > summary:focus {
+.lh-root :focus {
     outline: -webkit-focus-ring-color auto 3px;
 }
 .lh-root summary:focus {
@@ -153,24 +152,8 @@
   font-size: var(--body-font-size);
   margin-top: var(--default-padding);
   margin-bottom: var(--default-padding);
-}
-
-.lh-details summary {
-  position: relative;
-  left: -20px;
-  background: var(--lh-table-header-bg);
-  padding: 8px;
-  z-index: 1;
-}
-
-.lh-details[open] summary {
-  margin-top: -46px;
-  top: 46px;
-  margin-bottom: var(--default-padding);
-}
-
-.lh-details summary::-webkit-details-marker {
-  color: #9e9e9e;
+  /* whatever the .lh-details side margins are */
+  width: calc(100% - 35px - 10px);
 }
 
 .lh-details.flex .lh-code {
@@ -895,19 +878,14 @@ summary.lh-passed-audits-summary {
 .lh-table {
   --image-preview-size: 24px;
   border-collapse: collapse;
-  width: 100%;
-  margin-bottom: var(--lh-audit-vpadding);
 
   --url-col-max-width: 450px;
-  position: relative;
-  z-index: 2;
 }
 
 .lh-table thead {
   background: var(--lh-table-header-bg);
 }
-.lh-table thead th,
-.lh-details summary {
+.lh-table thead th {
   color: var(--medium-75-gray);
   font-weight: normal;
   text-align: left;
