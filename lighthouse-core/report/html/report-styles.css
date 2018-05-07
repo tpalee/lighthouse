@@ -144,8 +144,10 @@
 .lh-audit__description,
 .lh-load-opportunity__description,
 .lh-details {
-  margin-left: calc(var(--text-indent) + var(--lh-audit-index-width) + 2 * var(--audit-item-gap));
-  margin-right: calc(var(--text-indent) + 2px);
+  --inner-audit-left-padding: calc(var(--text-indent) + var(--lh-audit-index-width) + 2 * var(--audit-item-gap));
+  --inner-audit-right-padding: calc(var(--text-indent) + 2px);
+  margin-left: var(--inner-audit-left-padding);
+  margin-right: var(--inner-audit-right-padding);
 }
 
 .lh-details {
@@ -153,7 +155,7 @@
   margin-top: var(--default-padding);
   margin-bottom: var(--default-padding);
   /* whatever the .lh-details side margins are */
-  width: calc(100% - 35px - 10px);
+  width: calc(100% - var(--inner-audit-left-padding) - var(--inner-audit-right-padding));
 }
 
 .lh-details.flex .lh-code {
@@ -888,7 +890,6 @@ summary.lh-passed-audits-summary {
 .lh-table thead th {
   color: var(--medium-75-gray);
   font-weight: normal;
-  text-align: left;
 }
 
 .lh-table tbody tr:nth-child(even) {
